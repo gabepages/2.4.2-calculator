@@ -23,130 +23,190 @@
   var i;
   var allNums = [one, two, three, four, five, six, seven, eight, nine, zero, dot];
 
+  var operations = [divide, times, sub, add];
+  var result;
+  var numOne ;
+  var numTwo;
+  var operation;
+  var removeDisplayNum;
+  //*********
+  //Clear numbers
+  //*********
 
-  ac.addEventListener("click", zeroOut);
+
 
   function zeroOut (){
       mainNum.textContent=0;
   }
 
+  //*********
+  //numbers to appear on display
+  //*********
 
 
+  function numberOnScreen(){
+    // Get the value that's in the button
+    var clickedButton = this.innerHTML;
+    // Get the value that's in the display
+    var oldDisplay = mainNum.innerHTML;
+    // Concatinate the display value and the value in the button
+    if (oldDisplay == '0'){
+      oldDisplay = "";
+    }
+    var currentDisplay = oldDisplay + clickedButton;
+    // Take concatinated value and put it in the display
+    mainNum.textContent = currentDisplay;
 
-for ( i=0; i < allNums.length; i++ ){
-  var currentNumber = allNums[i];
-  currentNumber.addEventListener("click", numberOnScreen ) ;
-}
+    console.log('currentDisplay: ' + currentDisplay);
 
-function numberOnScreen(){
-  // Get the value that's in the button
-  var clickedButton = this.innerHTML;
-  console.log(clickedButton);
-  // Get the value that's in the display
-  var oldDisplay = mainNum.innerHTML;
-  // Concatinate the display value and the value in the button
-  if (oldDisplay == '0'){
-    oldDisplay = "";
+    if (mainNum.textContent.length >= 9){
+      alert("No More space in the box");
+    }
   }
-  var currentDisplay = oldDisplay + clickedButton;
-  console.log(currentDisplay);
-  // Take concatinated value and put it in the display
-  mainNum.textContent = currentDisplay;
-  if (mainNum.textContent.length >= 9){
-    alert("No More space in the box");
-}
-}
 
+  function resultFunc (){
+    numOne = mainNum.textContent;
+    removeDisplayNum = true;
+    if (removeDisplayNum == true){
+      mainNum.innerHTML= "0";
+    }
+    console.log(numOne);
+    var recieveOp = escape(this.textContent);
+    if (recieveOp == "%F7"){
+      operation = "divide";
+    }else if (recieveOp == "%D7") {
+      operation = "times";
+    }else if (recieveOp == "%u2013") {
+      operation = "subtract";
+    }else if (recieveOp == "+"){
+      operation = "add";
+    }
 
-//*********
-//add
-//*********
-add.addEventListener("click",adding);
-
-function adding (){
-  var saveNumber = mainNum.textContent;
-  console.log(saveNumber);
-
-  if (saveNumber == saveNumber){
-    mainNum.textContent = "";
-    var newNumber = prompt("What would you like to add it with?");
+    console.log('operation: ' + operation);
   }
-  var result = +saveNumber + +newNumber;
-  mainNum.textContent = result;
-}
 
+  function doMath(){
+    numTwo = mainNum.textContent;
+    console.log('numTwo: ' + numTwo);
+    if (operation == "divide"){
+      result = +numOne / +numTwo;
+      console.log(result);
+    }else if (operation == "times") {
+      result = +numOne * +numTwo;
+      console.log(result);
+    }else if (operation == "subtract") {
+      result = +numOne - +numTwo;
+      console.log(result);
+    } else {
+      result = +numOne + +numTwo;
 
-//*********
-//subtract
-//*********
-sub.addEventListener("click", subtract);
+    }
 
-function subtract (){
-  var saveNumber = mainNum.textContent;
-  console.log(saveNumber);
-
-  if (saveNumber == saveNumber){
-    mainNum.textContent = "";
-    var newNumber = prompt("What would you like to subtract from it?");
+    mainNum.textContent = result;
   }
-  var result = +saveNumber - +newNumber;
-  mainNum.textContent = result;
-}
 
-
-//*********
-//multiply
-//*********
-times.addEventListener("click", multiply)
-
-function multiply (){
-var saveNumber = mainNum.textContent;
-console.log(saveNumber);
-
-if (saveNumber == saveNumber){
-  mainNum.textContent = "";
-  var newNumber = prompt("What would you like to multiply it by?");
-}
-var result = +saveNumber * +newNumber;
-mainNum.textContent = result;
-}
-
-
-//*********
-//divide
-//*********
-divide.addEventListener('click', dividing);
-
-function dividing (){
-  var saveNumber = mainNum.textContent;
-  console.log(saveNumber);
-
-  if (saveNumber == saveNumber){
-    mainNum.textContent = "";
-    var newNumber = prompt("What would you like to divide it by?");
+  // Event Listeners
+  for (i=0; i < operations.length; i++ ){
+      operation = operations[i];
+      removeDisplayNum =false;
+     operation.addEventListener('click', resultFunc);
   }
-  var result = +saveNumber / +newNumber;
-  mainNum.textContent = result;
-}
+  for ( i=0; i < allNums.length; i++ ){
+    var currentNumber = allNums[i];
+    currentNumber.addEventListener("click", numberOnScreen ) ;
+  }
+  ac.addEventListener("click", zeroOut);
+  equal.addEventListener("click", doMath);
 
-//*********
-//positive / negative
-//*********
-posNeg.addEventListener('click', value);
-
-function value (){
-  var number = mainNum.textContent;
-  mainNum.textContent = "-" + number;
-}
-
-//*********
-//percentage
-//*********
-percent.addEventListener('click', percentage);
-
-function percentage(){
-  mainNum.textContent = mainNum.textContent / 100;
-}
+// //*********
+// //add
+// //*********
+// add.addEventListener("click",adding);
+//
+// function adding (){
+//   var saveNumber = mainNum.textContent;
+//   console.log(saveNumber);
+//
+//   if (saveNumber == saveNumber){
+//     mainNum.textContent = "";
+//     var newNumber = prompt("What would you like to add it with?");
+//   }
+//   var result = +saveNumber + +newNumber;
+//   mainNum.textContent = result;
+// }
+//
+//
+// //*********
+// //subtract
+// //*********
+// sub.addEventListener("click", subtract);
+//
+// function subtract (){
+//   var saveNumber = mainNum.textContent;
+//   console.log(saveNumber);
+//
+//   if (saveNumber == saveNumber){
+//     mainNum.textContent = "";
+//     var newNumber = prompt("What would you like to subtract from it?");
+//   }
+//   var result = +saveNumber - +newNumber;
+//   mainNum.textContent = result;
+// }
+//
+//
+// //*********
+// //multiply
+// //*********
+// times.addEventListener("click", multiply)
+//
+// function multiply (){
+// var saveNumber = mainNum.textContent;
+// console.log(saveNumber);
+//
+// if (saveNumber == saveNumber){
+//   mainNum.textContent = "";
+//   var newNumber = prompt("What would you like to multiply it by?");
+// }
+// var result = +saveNumber * +newNumber;
+// mainNum.textContent = result;
+// }
+//
+//
+// //*********
+// //divide
+// //*********
+// divide.addEventListener('click', dividing);
+//
+// function dividing (){
+//   var saveNumber = mainNum.textContent;
+//   console.log(saveNumber);
+//
+//   if (saveNumber == saveNumber){
+//     mainNum.textContent = "";
+//     var newNumber = prompt("What would you like to divide it by?");
+//   }
+//   var result = +saveNumber / +newNumber;
+//   mainNum.textContent = result;
+// }
+//
+// //*********
+// //positive / negative
+// //*********
+// posNeg.addEventListener('click', value);
+//
+// function value (){
+//   var number = mainNum.textContent;
+//   mainNum.textContent = "-" + number;
+// }
+//
+// //*********
+// //percentage
+// //*********
+// percent.addEventListener('click', percentage);
+//
+// function percentage(){
+//   mainNum.textContent = mainNum.textContent / 100;
+// }
 
 
 
